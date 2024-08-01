@@ -1,0 +1,1281 @@
+openapi: 3.0.0
+info:
+  title: FNB API
+  description: >
+    **API for managing products with Swagger**
+
+    Developed by **tn823**
+  version: 1.0.0
+  contact:
+    name: Nguyễn Trọng Nghĩa
+    url: https://github.com/tn823
+    email: trnghia823@gmail.com
+servers:
+  - url: http://localhost:3000/
+  - url: https://node-be-api.vercel.app
+
+tags:
+  - name: Product
+    description: Everything about your Products
+  - name: Category
+    description: Product Category
+  - name: Menu
+    description: Menu Mcdonald
+  - name: Account
+    description: Account List
+  - name: Authentication
+    description: Login or Register Api
+  - name: Combos
+    description: Combos API
+
+paths:
+  /api/getProducts:
+    get:
+      tags:
+        - Product
+      summary: Get all products
+      responses:
+        "200":
+          description: A list of products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /api/getProduct/{id}:
+    get:
+      summary: Get product by ID
+      tags:
+        - Product
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The ID of the product to get
+      responses:
+        '200':
+          description: Thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/getProducts/name/{name}:
+    get:
+      summary: Get product by name
+      tags:
+        - Product
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          description: The name of the product to get
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "404":
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /api/getProducts/category/{categoryId}:
+    get:
+      summary: Get products by category ID
+      tags:
+        - Product
+      parameters:
+        - in: path
+          name: categoryId
+          required: true
+          schema:
+            type: integer
+          description: The ID of the category to get products for
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+        "404":
+          description: No products found in this category
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /api/addProduct:
+    post:
+      tags:
+        - Product
+      summary: Create a new product
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductInput"
+      responses:
+        "201":
+          description: The created product
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /api/deleteProduct/{id}:
+    delete:
+      tags:
+        - Product
+      summary: Delete a product by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The ID of the product to delete
+      responses:
+        "200":
+          description: Product deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+        "404":
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /api/updateProduct/{id}:
+    put:
+      tags:
+        - Product
+      summary: Update a product by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The ID of the product to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductInput"
+      responses:
+        "200":
+          description: Product updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "404":
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /api/getCategories:
+    get:
+      summary: Get all category name
+      tags:
+        - Category
+      responses:
+        '200':
+          description: Thành công
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/getCategory/{id}:
+    get:
+      summary: Get a category by ID
+      tags:
+        - Category
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: ID of the category to retrieve
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '404':
+          description: Category not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/getCategories/name/{name}:
+    get:
+      summary: Get categories by name (partial match)
+      tags:
+        - Category
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          description: Name of the category to retrieve
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+        '404':
+          description: Category not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/getCategories/menu/{menuId}:
+    get:
+      summary: Get categories by menu ID
+      tags:
+        - Category
+      parameters:
+        - in: path
+          name: menuId
+          required: true
+          schema:
+            type: integer
+          description: Menu ID of the categories to retrieve
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+        '404':
+          description: Category not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/createCategory:
+    post:
+      tags:
+        - Category
+      summary: Create a new category
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryInput'
+      responses:
+        '201':
+          description: The created category
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/deleteCategory/{id}:
+    delete:
+      tags:
+        - Category
+      summary: Delete a category by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The ID of the category to delete
+      responses:
+        '200':
+          description: Category deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '404':
+          description: Category not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/updateCategory/{id}:
+    put:
+      tags:
+        - Category
+      summary: Update a category by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The ID of the category to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryInput'
+      responses:
+        '200':
+          description: Category updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '404':
+          description: Category not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  paths:
+  /api/getMenus:
+    get:
+      tags:
+        - Menu
+      summary: Get all menus
+      responses:
+        '200':
+          description: A list of menus
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Menu'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/getMenu/{id}:
+    get:
+      summary: Get a menu by ID
+      tags:
+        - Menu
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the menu to retrieve
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A single menu
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Menu'
+        '404':
+          description: Menu not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Error while getting menu
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/getMenus/name/{name}:
+    get:
+      summary: Get menus by name
+      tags:
+        - Menu
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: Name of the menu to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of menus
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Menu'
+        '404':
+          description: Menu not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Error while getting menu
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/addMenu:
+    post:
+      summary: Create a new menu
+      tags:
+        - Menu
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+              required:
+                - name
+            example:
+              name: New Menu
+      responses:
+        '201':
+          description: Menu created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  menu:
+                    $ref: '#/components/schemas/Menu'
+                example:
+                  message: Menu created successfully
+                  menu:
+                    id: 1
+                    name: New Menu
+        '500':
+          description: Error while creating menu
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/deleteMenu/{id}:
+    delete:
+      summary: Delete a menu by ID
+      tags:
+        - Menu
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the menu to delete
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Menu deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: Menu deleted successfully
+        '404':
+          description: Menu not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Error while deleting menu
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/updateMenu/{id}:
+    put:
+      summary: Update a menu by ID
+      tags:
+        - Menu
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the menu to update
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+              required:
+                - name
+            example:
+              name: Updated Menu
+      responses:
+        '200':
+          description: Menu updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  menu:
+                    $ref: '#/components/schemas/Menu'
+                example:
+                  message: Menu updated successfully
+                  menu:
+                    id: 1
+                    name: Updated Menu
+        '404':
+          description: Menu not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Error while updating menu
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/getAccounts:
+    get:
+      summary: Get all accounts
+      tags:
+        - Account
+      responses:
+        "200":
+          description: A list of accounts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Account"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /api/getAccount/{id}:
+    get:
+      summary: Get account by ID
+      tags:
+        - Account
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the account to get
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '404':
+          description: Account not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/addAccount:
+    post:
+      summary: Create a new account
+      tags:
+        - Account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountInput'
+      responses:
+        "201":
+          description: The created account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/deleteAccount/{id}:
+    delete:
+      tags:
+        - Account
+      summary: Delete an account by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the account to delete
+      responses:
+        "200":
+          description: Account deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+        "404":
+          description: Account not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /api/updateAccount/{id}:
+    put:
+      tags:
+        - Account
+      summary: Update an account by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the account to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountInput'
+      responses:
+        "200":
+          description: Account updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Account"
+        "404":
+          description: Account not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/login:
+    post:
+      tags:
+        - Authentication
+      summary: "Login"
+      description: "User login"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              required:
+                - username
+                - password
+      responses:
+        '200':
+          description: "Login successful"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  token:
+                    type: string
+        '401':
+          description: "Invalid password"
+        '404':
+          description: "Account not found"
+
+
+
+  /api/getCombos:
+    get:
+      tags:
+        - Combos
+      summary: Get all combos
+      responses:
+        '200':
+          description: A list of combos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Combo'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID của sản phẩm
+        code:
+          type: string
+        name:
+          type: string
+        fullName:
+          type: string
+        description:
+          type: string
+        basePrice:
+          type: number
+        created_at:
+          type: string
+          format: date-time
+          description: Thời gian tạo sản phẩm (ISO 8601 format)
+        updated_at:
+          type: string
+          format: date-time
+          description: Thời gian cập nhật sản phẩm (ISO 8601 format)
+        category_id:
+          type: integer
+        Category:
+          $ref: "#/components/schemas/Category"
+        ProductImages:
+          type: array
+          items:
+            $ref: "#/components/schemas/ProductImage"
+        Attributes:
+          type: array
+          items:
+            $ref: "#/components/schemas/Attribute"
+      example:
+        id: 1
+        code: SP0001
+        name: BigBurger
+        fullName: BigBurger-Cay
+        description: Burger To
+        basePrice: 30006.00
+        created_at: 2024-06-23T06:09:52.000Z
+        updated_at: 2024-06-23T06:09:52.000Z
+        category_id: 1
+        Category:
+          id: 1
+          categoryId: 605545
+          categoryName: Phần Ăn EVM
+          createdDate: 2024-06-24T13:47:13.656Z
+          modifiedDate: 2024-06-24T18:05:41.771Z
+          menu_id: 1
+          Menu:
+            id: 1
+            name: Menu Chính
+            created_at: 2024-06-24T13:26:55.767Z
+            updated_at: 2024-06-24T13:33:21.052Z
+        ProductImages:
+          - id: 1
+            product_id: 1
+            url: https://mcdelivery.vn/vn//static/1717123370438/assets/84/products/1149.png
+            created_at: 2024-06-23T06:09:52.000Z
+            updated_at: 2024-06-23T06:09:52.000Z
+            position: 1
+        Attributes:
+          - id: 2
+            product_id: 1
+            attributeName: Sốt Đậu
+            attributeValue: Không Cay
+          - id: 1
+            product_id: 1
+            attributeName: Sốt Đậu
+            attributeValue: Cay
+
+    ProductInput:
+      type: object
+      required:
+        - code
+        - name
+        - fullName
+        - description
+        - basePrice
+        - category_id
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+        fullName:
+          type: string
+        description:
+          type: string
+        basePrice:
+          type: number
+        category_id:
+          type: integer
+        ProductImages:
+          type: array
+          items:
+            type: object
+            properties:
+              url:
+                type: string
+                format: uri
+                description: Đường dẫn URL của hình ảnh
+              position:
+                type: integer
+                description: Vị trí của hình ảnh trong sản phẩm
+        Attributes:
+          type: array
+          items:
+            type: object
+            properties:
+              attributeName:
+                type: string
+                description: Tên thuộc tính
+              attributeValue:
+                type: string
+                description: Giá trị thuộc tính
+      example:
+        code: SP0001
+        name: New Product
+        fullName: New Product Full Name
+        description: This is a new product
+        basePrice: 19.99
+        category_id: 1
+        images:
+          - url: https://example.com/image1.jpg
+            position: 1
+          - url: https://example.com/image2.jpg
+            position: 2
+        attributes:
+          - attributeName: Color
+            attributeValue: Red
+          - attributeName: Size
+            attributeValue: L
+
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+        categoryId:
+          type: integer
+        categoryName:
+          type: string
+        createdDate:
+          type: string
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        menu_id:
+          type: integer
+        Menu:
+          $ref: "#/components/schemas/Menu"
+
+    Menu:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    ProductImage:
+      type: object
+      properties:
+        id:
+          type: integer
+        product_id:
+          type: integer
+        url:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        position:
+          type: integer
+
+    Attribute:
+      type: object
+      properties:
+        id:
+          type: integer
+        product_id:
+          type: integer
+        attributeName:
+          type: string
+        attributeValue:
+          type: string
+
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: Lỗi xảy ra trong quá trình xử lý.
+
+    Message:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: Hành động thành công.
+
+  Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID category
+        categoryId:
+          type: string
+        categoryName:
+          type: string
+          description: Name category
+        menu_id:
+          type: interger
+          description: New menu_id
+      example:
+        id: 1
+        name: Example Category
+        menu_: 1
+
+  CategoryInput:
+      type: object
+      required:
+        - name
+        - categoryId
+        - categoryName
+        - menu_id
+      properties:
+        name:
+          type: string
+          description: name category
+        categoryId:
+          type: string
+        categoryName:
+          type: string
+          description: name category
+        menu_id:
+          type: integer
+          description: menu_id
+      example:
+        categoryName: New Category
+        categoryId: 1123123
+        menu_id: 1
+
+  Menu:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID of the menu
+        name:
+          type: string
+          description: Name of the menu
+      example:
+        id: 1
+        name: Breakfast Menu
+        created_at: "2024-06-24T12:49:52.106Z"
+        updated_at: "2024-06-24T12:49:52.106Z"
+
+  Account:
+      type: object
+      properties:
+        account_id:
+          type: integer
+          description: ID account
+        username:
+          type: string
+          description: Your username
+        password:
+          type: string
+          description: Your password
+        position:
+          type: string
+          description: Your account positon
+
+      example:
+        account_id: 1
+        username: admin
+        password: 123
+        position: admin
+
+  AccountInput:
+      type: object
+      required:
+        - username
+        - password
+        - position
+      properties:
+        username:
+          type: string
+          description: Username of the account
+        password:
+          type: string
+          description: Password of the account
+        position:
+          type: string
+          description: Position of the account
+      example:
+        username: username
+        password: password
+        position: position
+
+  Authentication:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Your username
+        password:
+          type: string
+          description: Your password
+      example:
+        username: admin
+        password: 123
+
+  AuthenticationInput:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+          description: Username of the account
+        password:
+          type: string
+          description: Password of the account
+      example:
+        username: username
+        password: password
+
+
+  Combo:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID of the combo
+        name:
+          type: string
+          description: Name of the combo
+        description:
+          type: string
+          description: Description of the combo
+        price:
+          type: string
+          description: Price of the combo
+        created_at:
+          type: string
+          format: date-time
+          description: Date and time when the combo was created
+        updated_at:
+          type: string
+          format: date-time
+          description: Date and time when the combo was last updated
+        ComboDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/ComboDetail'
+  ComboDetail:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID of the combo detail
+        combo_id:
+          type: integer
+          description: ID of the combo
+        product_id:
+          type: integer
+          description: ID of the product in the combo
+        quantity:
+          type: integer
+          description: Quantity of the product in the combo
+
+  Message:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: Operation successful
+
+  Error:
+      type: object
+      properties:
+        error:
+          type: string
+      example:
+        error: Operation error
