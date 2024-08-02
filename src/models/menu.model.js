@@ -1,6 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const { sequelize } = require('../config/database');
 
+
 const Menu = sequelize.define('Menu', {
     id: {
         type: DataTypes.INTEGER,
@@ -23,5 +24,6 @@ const Menu = sequelize.define('Menu', {
     tableName: 'menus',
     timestamps: false
 });
+
 
 module.exports = Menu;

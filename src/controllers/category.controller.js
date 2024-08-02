@@ -1,4 +1,4 @@
-const Category = require('../models/categoty.model');
+const Category = require('../models/category.model');
 const { Op } = require("sequelize");
 const Menu = require('../models/menu.model');
 const moment = require('moment-timezone');
@@ -85,9 +85,9 @@ exports.deleteCategory = async (req, res) => {
 exports.updateCategory = async (req, res) => {
     try {
         const categoryId = req.params.id;
-        const { categoryName, menu_id } = req.body;
+        const { categoryName, menuId } = req.body;
 
-        const updatedCategory = await CategoryService.updateCategory(categoryId, { categoryName, menu_id });
+        const updatedCategory = await CategoryService.updateCategory(categoryId, { categoryName, menuId });
         res.status(200).json({ message: 'Category updated successfully', data: updatedCategory });
     } catch (error) {
         if (error.message === 'Category not found') {
@@ -107,7 +107,7 @@ exports.getCategoryByMenuId = async (req, res) => {
         const menuId = req.params.menuId;
         const categories = await Category.findAll({
             where: {
-                menu_id: menuId
+                menuId: menuId
             },
             include: {
                 model: Menu,
@@ -121,8 +121,8 @@ exports.getCategoryByMenuId = async (req, res) => {
 
         res.json(categories);
     } catch (error) {
-        console.error('Error while getting category by menu_id:', error);
-        res.status(500).json({ error: 'Error while getting category by menu_id' });
+        console.error('Error while getting category by menuId:', error);
+        res.status(500).json({ error: 'Error while getting category by menuId' });
     }
 };
 

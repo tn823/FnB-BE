@@ -6,7 +6,7 @@ const { sequelize } = require('../config/database');
 const Product = require('../models/product.model');
 const ProductImage = require('../models/productImage.model');
 const Attribute = require('../models/productAttribute.model');
-const Category = require('../models/categoty.model');
+const Category = require('../models/category.model');
 const Topping = require('../models/topping.model');
 const { Op } = require('sequelize');
 dotenv.config();
@@ -87,7 +87,7 @@ class ProductService {
                 },
                 include: [{
                     model: Category,
-                    attributes: ['id', 'categoryId', 'categoryName', 'createdDate', 'modifiedDate', 'menu_id'],
+                    attributes: ['id', 'categoryId', 'categoryName', 'createdDate', 'modifiedDate', 'menuId'],
                 }, {
                     model: ProductImage,
                     attributes: ['id', 'productId', 'url', 'created_at', 'updated_at', 'position']
@@ -112,7 +112,7 @@ class ProductService {
                 include: [
                     {
                         model: Category,
-                        attributes: ['id', 'categoryId', 'categoryName', 'createdDate', 'modifiedDate', 'menu_id'],
+                        attributes: ['id', 'categoryId', 'categoryName', 'createdDate', 'modifiedDate', 'menuId'],
                     },
                     {
                         model: ProductImage,
