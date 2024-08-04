@@ -82,27 +82,23 @@ class CategoryService {
     async createCategory(categoryData) {
         const transaction = await sequelize.transaction();
         try {
-            const { ategoryName, menuId } = categoryData;
+            const { categoryName, menuId } = categoryData;
+
+            const exitstingCategory = await Category.findOne({ where: { categoryName } })
+            if (exitstingCategory) {
+                throw new error('Category name already exists');
+            }
+
             const currentTimeVN = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
             const newCategory = await Category.create({ categoryName, menuId, createdDate: currentTimeVN, updatedDate: currentTimeVN }, { transaction });
 
-            // const kiotvietCategoryData = {
-            //     categoryName: categoryName
-            // };
-
-            // const kiotvietCategory = await this.createCategoryKiotviet(kiotvietCategoryData);
-
-            // await newCategory.update({
-            //     id: kiotvietCategory.data.categoryId,
-            //     categoryId: kiotvietCategory.data.categoryId
-            // }, { transaction });
 
             await transaction.commit();
 
             return {
                 message: 'Category added successfully',
                 category: newCategory,
-                // kiotvietCategory: kiotvietCategory
+
             };
         } catch (error) {
             await transaction.rollback();
