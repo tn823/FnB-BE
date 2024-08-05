@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const { sequelize } = require('../config/database');
-const Category = require('../models/categoty.model');
+const Category = require('../models/category.model');
 const Product = require("./product.model");
 
 const Topping = sequelize.define('Topping', {

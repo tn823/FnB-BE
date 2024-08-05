@@ -1,6 +1,6 @@
-const { Sequelize, DataTypes } = require("sequelize")
+const { DataTypes } = require("sequelize")
 const { sequelize } = require('../config/database')
-const Menu = require('./menu.model')
+const Menu = require("../models/menu.model")
 
 const Category = sequelize.define('Category', {
     id: {
@@ -8,14 +8,9 @@ const Category = sequelize.define('Category', {
         primaryKey: true,
         autoIncrement: true
     },
-    categoryId: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        unique: true
-    },
     categoryName: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true,
     },
     createdDate: {
         type: DataTypes.DATE(3),
@@ -25,14 +20,19 @@ const Category = sequelize.define('Category', {
         type: DataTypes.DATE(3),
         allowNull: true
     },
-    menu_id: {
+    menuId: {
         type: DataTypes.INTEGER,
-        allowNull: true
+        allowNull: true,
+        references: {
+            model: 'menus',
+            key: 'id'
+        }
     }
 }, {
     tableName: 'categories',
     timestamps: false,
 });
 
+Category.belongsTo(Menu, { foreignKey: 'menuId' })
 
 module.exports = Category;

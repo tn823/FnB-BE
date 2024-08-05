@@ -2,7 +2,7 @@ const Product = require("../models/product.model.js");
 const ProductImage = require('../models/productImage.model.js');
 const { Op } = require("sequelize");
 const moment = require('moment-timezone');
-const Category = require("../models/categoty.model.js");
+const Category = require("../models/category.model.js");
 const Menu = require("../models/menu.model.js");
 const Attribute = require('../models/productAttribute.model.js');
 const Topping = require('../models/topping.model.js');
@@ -10,7 +10,7 @@ const ProductService = require('../services/product.service.js');
 
 Product.hasMany(ProductImage, { foreignKey: 'productId' });
 ProductImage.belongsTo(Product, { foreignKey: 'productId' });
-Category.belongsTo(Menu, { foreignKey: 'menu_id' });
+Category.belongsTo(Menu, { foreignKey: 'menuId' });
 Product.belongsTo(Category, { foreignKey: 'categoryId' });
 Product.hasMany(Attribute, { foreignKey: 'productId' });
 Product.hasMany(Topping, { foreignKey: 'productId' });
