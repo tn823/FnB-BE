@@ -1,5 +1,6 @@
 {
-    "watch": ["swagger.yaml"],
-    "ext": "yaml",
+    "watch": ["src","swagger.yaml"],
+    "ext": "yaml,js,json",
+    "ignore": ["node_modules"],
     "exec": "node api/server.ts"
 }
