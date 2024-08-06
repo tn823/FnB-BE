@@ -6,6 +6,10 @@ router.get('/toppings', toppingController.getTopping);
 
 router.get('/toppings/:productId', toppingController.getToppingsByProductId);
 
-router.delete('/toppings/:productId', toppingController.deleteTopping);
+router.post('/toppings', toppingController.createTopping);
+
+router.put('/toppings/:id', toppingController.updateTopping);
+
+router.delete('/toppings/:id', toppingController.deleteTopping);
 
 module.exports = router;

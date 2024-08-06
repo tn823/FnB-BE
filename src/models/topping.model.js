@@ -17,11 +17,6 @@ const Topping = sequelize.define('Topping', {
             key: 'id',
         },
     },
-
-    code: {
-        type: DataTypes.STRING,
-        allowNull: true
-    },
     name: {
         type: DataTypes.STRING,
         allowNull: true
