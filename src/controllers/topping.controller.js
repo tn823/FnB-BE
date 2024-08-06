@@ -29,12 +29,40 @@ exports.getToppingsByProductId = async (req, res) => {
 };
 
 
+exports.createTopping = async (req, res) => {
+    try {
+        const newTopping = await ToppingService.createTopping(req.body);
+        res.status(201).json(newTopping);
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
+
+exports.updateTopping = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const toppingData = req.body;
+
+        const updateTopping = await ToppingService.updateTopping(id, toppingData);
+
+        if (updateTopping) {
+            res.json(updateTopping);
+        } else {
+            res.status(404).json({ error: 'Topping not found' });
+        }
+    } catch (error) {
+        console.error('Error while updating topping: ', error);
+        res.status(500).json({ error: 'Error while updating topping' });
+    }
+}
+
 exports.deleteTopping = async (req, res) => {
     try {
-        const productId = req.params.id;
-        const result = await ToppingService.deleteTopping(productId);
+        const id = req.params.id;
+        const result = await ToppingService.deleteTopping(id);
         if (result) {
-            res.json({ message: `Xóa topping thành công topping có id ${productId}` });
+            res.json({ message: `Xóa topping thành công topping có id ${id}` });
         } else {
             res.status(404).json({ error: 'Topping không tồn tại' });
         }
