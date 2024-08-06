@@ -1,13 +1,14 @@
 const { Op } = require('sequelize');
 const Menu = require('../models/menu.model');
 const moment = require('moment-timezone');
+const MenuService = require("../services/menu.service");
 
 exports.getMenus = async (req, res) => {
     try {
-        const menus = await Menu.findAll();
+        const menus = await MenuService.getMenus();
         res.json(menus);
     } catch (error) {
-        console.error('Error while getting menus:', error);
+        console.error('Error while getting menus: ', error);
         res.status(500).json({ error: 'Error while getting menus' });
     }
 };
@@ -31,35 +32,28 @@ exports.createMenu = async (req, res) => {
 exports.deleteMenu = async (req, res) => {
     const { id } = req.params;
     try {
-        const menu = await Menu.findByPk(id);
-        if (!menu) {
-            return res.status(200).json({ error: 'Menu not found' });
-        }
-        await menu.destroy();
+        const menu = await MenuService.deleteMenu(id);
         res.json({ message: 'Menu deleted successfully' });
     } catch (error) {
+        if (error.message === 'Menu not found') {
+            return res.status(404).json({ error: 'Menu not found' });
+        }
         console.error('Error while deleting menu:', error);
         res.status(500).json({ error: 'Error while deleting menu' });
     }
 };
 
 exports.updateMenu = async (req, res) => {
-    const { id } = req.params;
-    const { name } = req.body;
     try {
-        let menu = await Menu.findByPk(id);
+        const menuId = req.params.id;
+        const { name } = req.body;
+        const menu = await MenuService.updateMenu(menuId, name);
         if (!menu) {
             return res.status(404).json({ error: 'Menu not found' });
         }
-        const currentTimeVN = moment().tz('Asia/Ho_Chi_Minh');
-        const currentTimeUTCF = currentTimeVN.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
-
-        menu.name = name;
-        menu.updated_at = currentTimeUTCF;
-        await menu.save();
-        res.json({ message: 'Menu update successfully' });
+        res.status(200).json({ message: 'Menu updated successfully' });
     } catch (error) {
-        console.error('Error while updating menu:', error);
+        console.log('Error while updating menu: ', error);
         res.status(500).json({ error: 'Error while updating menu' });
     }
 };
@@ -68,7 +62,7 @@ exports.updateMenu = async (req, res) => {
 exports.getMenuById = async (req, res) => {
     try {
         const menuId = req.params.id;
-        const menu = await Menu.findByPk(menuId);
+        const menu = await MenuService.getMenuById(menuId);
         if (!menu) {
             return res.status(404).json({ error: 'Menu not found' });
         }
