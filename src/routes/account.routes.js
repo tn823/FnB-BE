@@ -10,7 +10,7 @@ router.delete('/accounts/:id', accountController.deleteAccount);
 
 router.put('/accounts/:id', accountController.updateAccount);
 
-router.post('/login', accountController.login);
+// router.post('/login', accountController.login);
 
 router.get('/accounts/:id', accountController.getAccountById);
 
