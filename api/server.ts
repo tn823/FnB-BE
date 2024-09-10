@@ -17,6 +17,8 @@ const toppingRoutes = require('../src/routes/topping.routes');
 const syncRoutes = require('../src/sync/syncRoutes');
 const cron = require('node-cron');
 const syncService = require('../src/sync/syncService');
+const cookieParser = require('cookie-parser');
+const authRoutes = require('../src/routes/auth.routes');
 
 dotenv.config();
 
@@ -25,19 +27,22 @@ connectDB();
 const app = express();
 const port = process.env.PORT || 3000;
 
-const allowedOrigins = ['http://localhost:5173', 'https://fnb-web.vercel.app'];
+const allowedOrigins = ['http://localhost:5173', 'https://fnb-web.vercel.app', 'https://fnb-fe-ui.vercel.app'];
 
 app.use(cors({
 
-  origin: 'http://localhost:5173',
+  origin: allowedOrigins,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
 }));
 
+// Middleware
 app.use(morgan('dev'));
 app.use(helmet());
 app.use(express.json());
+app.use(cookieParser());
 
+// Routes
 app.use('/api', productRoutes);
 app.use('/api', categoryRoutes);
 app.use('/api', accountRoutes);
@@ -46,6 +51,7 @@ app.use('/api', comboRoutes);
 app.use('/api', orderRoutes);
 app.use('/api', toppingRoutes);
 app.use('/api', syncRoutes);
+app.use('/api', authRoutes);
 
 
 fs.readFile('swagger.yaml', 'utf8', (err, data) => {
