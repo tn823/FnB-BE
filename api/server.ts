@@ -27,17 +27,23 @@ connectDB();
 const app = express();
 const port = process.env.PORT || 3000;
 
-const allowedOrigins = ['http://localhost:5173', 'https://fnb-fe-ui.vercel.app'];
+// const allowedOrigins = ['http://localhost:5173', 'https://fnb-fe-ui.vercel.app'];
+
+// app.use(cors({
+//   origin: function (origin, callback) {
+//     // Kiểm tra xem origin có trong danh sách allowedOrigins hay không
+//     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error('Not allowed by CORS'));
+//     }
+//   },
+//   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//   credentials: true,
+// }));
 
 app.use(cors({
-  origin: function (origin, callback) {
-    // Kiểm tra xem origin có trong danh sách allowedOrigins hay không
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: '*',  // Cho phép mọi domain
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
 }));
