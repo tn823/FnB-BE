@@ -24,6 +24,10 @@ const Order = sequelize.define('Order', {
     status: {
         type: DataTypes.INTEGER,
         allowNull: true
+    },
+    paymentType: {
+        type: DataTypes.STRING,
+        allowNull: true
     }
 }, {
     tableName: 'orders',
