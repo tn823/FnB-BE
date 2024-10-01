@@ -5,9 +5,8 @@ const dotenv = require('dotenv');
 const Topping = require('../models/topping.model');
 const Product = require('../models/product.model');
 const Category = require('../models/category.model');
+const { Op } = require('sequelize');
 dotenv.config();
-
-const apiUrl = 'https://publicfnb.kiotapi.com/products';
 
 class ToppingService {
 
@@ -22,6 +21,15 @@ class ToppingService {
         }
     }
 
+    async getToppingsById(id) {
+        try {
+            const toppings = await Topping.findOne(id);
+            return toppings;
+        } catch (error) {
+            console.error('Error while getting toppings from database: ', error);
+            throw new Error(`Error while getting toppings from database: ${error.message}`);
+        }
+    }
 
     async getToppingsByProductId(productId) {
         try {
@@ -35,21 +43,22 @@ class ToppingService {
         }
     }
 
-    // async deleteProductKiotviet(productId) {
-    //     const accessToken = await getAccessToken();
-    //     try {
-    //         const response = await axios.delete(`${apiUrl}/${productId}`, {
-    //             headers: {
-    //                 'Authorization': `Bearer ${accessToken}`,
-    //                 'Retailer': process.env.RETAILER_ID
-    //             }
-    //         });
-    //         return response.data;
-    //     } catch (error) {
-    //         console.error('Error deleting product in KiotViet', error.response?.data || error.message);
-    //         throw error;
-    //     }
-    // };
+    async getToppingsByName(name) {
+        try {
+            const toppings = await Topping.findAll({
+                where: {
+                    name: {
+                        [Op.like]: `%${name}%`
+                    }
+                }
+            });
+
+            return toppings;
+        } catch (error) {
+            console.error('Error while getting product by name:', error);
+            throw error;
+        }
+    }
 
     async deleteTopping(id) {
         try {
