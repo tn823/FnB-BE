@@ -23,7 +23,7 @@ class ToppingService {
 
     async getToppingsById(id) {
         try {
-            const toppings = await Topping.findOne(id);
+            const toppings = await Topping.findOne({where: { id }});
             return toppings;
         } catch (error) {
             console.error('Error while getting toppings from database: ', error);
