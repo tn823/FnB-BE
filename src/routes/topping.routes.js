@@ -4,7 +4,11 @@ const toppingController = require('../controllers/topping.controller');
 
 router.get('/toppings', toppingController.getTopping);
 
-router.get('/toppings/:productId', toppingController.getToppingsByProductId);
+router.get('/toppings/product/:productId', toppingController.getToppingsByProductId);
+
+router.get('/toppings/:id', toppingController.getToppingsById);
+
+router.get('/toppings/name/:name', toppingController.getToppingsByName);
 
 router.post('/toppings', toppingController.createTopping);
 

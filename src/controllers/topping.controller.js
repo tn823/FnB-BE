@@ -12,6 +12,19 @@ exports.getTopping = async (req, res) => {
     }
 };
 
+exports.getToppingsById = async (req, res) => {
+    try {
+        const toppingId = req.params.id;
+        const topping = await ToppingService.getToppingsById(toppingId);
+        if (!topping) {
+            return res.status(404).json({error: 'Topping not found'})
+        }
+        res.status(200).json(topping)
+    } catch (error) {
+        console.error('Error while getting toppings by product: ', error);
+        res.status(500).json({ error: 'Error while getting toppings by product' });
+    }
+};
 
 exports.getToppingsByProductId = async (req, res) => {
     try {
@@ -28,6 +41,20 @@ exports.getToppingsByProductId = async (req, res) => {
     }
 };
 
+exports.getToppingsByName = async (req, res) => {
+    try {
+        const name = req.params.name;
+        const toppings = await ToppingService.getToppingsByName(name);
+
+        if (toppings.length > 0) {
+            res.json(toppings);
+        } else {
+            res.status(404).json({ error: 'Topping not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Error while getting topping by name' });
+    }
+};
 
 exports.createTopping = async (req, res) => {
     try {
