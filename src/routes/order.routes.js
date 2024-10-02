@@ -12,6 +12,8 @@ router.delete('/orders/:orderId', orderController.deleteOrder);
 
 router.put('/orders/:orderId', orderController.updateOrder);
 
+router.put('/orders/status/:orderId', orderController.updateOrderStatus);
+
 router.get('/orders/revenue/today', orderController.getRevenue);
 
 
