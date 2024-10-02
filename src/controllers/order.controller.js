@@ -67,6 +67,23 @@ exports.deleteOrder = async (req, res) => {
     }
 };
 
+exports.updateOrderStatus = async (req, res) => {
+    try {
+        const { orderId } = req.params;
+        const { status } = req.body; // Truyền status mới từ body request
+
+        const updatedOrder = await OrderService.updateOrderStatus(orderId, status);
+        if (updatedOrder) {
+            res.status(200).json({ message: 'Order status updated successfully', order: updatedOrder });
+        } else {
+            res.status(404).json({ error: 'Order not found' });
+        }
+    } catch (error) {
+        console.error('Error updating order status:', error);
+        res.status(400).json({ error: error.message });
+    }
+};
+
 
 exports.getRevenue = async (req, res) => {
     try {

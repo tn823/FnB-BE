@@ -169,6 +169,21 @@ class OrderService {
         }
     }
 
+    async updateOrderStatus(orderId, status) {
+        try {
+            const order = await Order.findByPk(orderId);
+            if (!order) {
+                throw new Error('Order not found');
+            }
+            order.status = status;
+            await order.save();
+
+            return order;
+        } catch (error) {
+            throw new Error(`Error updating order status: ${error.message}`);
+        }
+    }
+
     async getRevenue() {
         try {
             const today = moment().startOf('day').format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
