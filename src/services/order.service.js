@@ -191,8 +191,9 @@ class OrderService {
 
             const result = await sequelize.query(`
                 SELECT
-                    COALESCE(SUM(totalPrice), 0) AS totalRevenue,
-                    COALESCE(COUNT(id), 0) AS orderCount
+                    COALESCE(SUM(CASE WHEN status = 2 THEN totalPrice ELSE 0 END), 0) AS totalRevenue,
+                    COALESCE(COUNT(CASE WHEN status = 2 THEN id END), 0) AS completedOrderCount,
+                    COALESCE(COUNT(CASE WHEN status = 1 THEN id END), 0) AS pendingOrderCount
                 FROM orders
                 WHERE orderDate BETWEEN :startDate AND :endDate
             `, {
