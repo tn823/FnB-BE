@@ -6,6 +6,28 @@ const { sequelize } = require('../config/database');
 const moment = require('moment-timezone');
 
 class OrderService {
+
+    async getOrders() {
+        try {
+            const orders = await Order.findAll({
+                include: [{
+                    model: OrderDetail,
+                    include: [{
+                        model: OrderDetailTopping,
+                    }]
+                }],
+                order: [
+                    [sequelize.literal(`CASE WHEN status = '1' THEN 0 ELSE 1 END`), 'ASC'],
+                    ['orderDate', 'DESC']
+                ]
+            });
+            return orders;
+        } catch (error) {
+            throw new Error(`Error fetching orders: ${error.message}`);
+        }
+    }
+
+
     async createOrder(orderData) {
         const transaction = await sequelize.transaction();
         try {
@@ -49,22 +71,6 @@ class OrderService {
         } catch (error) {
             await transaction.rollback();
             throw new Error(`Error creating order: ${error.message}`);
-        }
-    }
-
-    async getOrders() {
-        try {
-            const orders = await Order.findAll({
-                include: [{
-                    model: OrderDetail,
-                    include: [{
-                        model: OrderDetailTopping,
-                    }]
-                }]
-            });
-            return orders;
-        } catch (error) {
-            throw new Error(`Error fetching order: ${error.message}`);
         }
     }
 
