@@ -1,39 +1,70 @@
+# Creating the README.md file for the Back-End project based on the provided content
+readme_be_content = """
 # F&B Back-End Project
 
-[TODO] Description for f&b 
+## 📝 Project Description
+
+This project is the Back-End system for managing the F&B platform. It handles requests from the frontend, interacts with the database, and manages the business logic, authentication, and API functionalities.
+
+---
 
 ## 🧑‍💻 Tech Stack
 
-example:
-- Node v20.x 
-- Express 7.0.8
-- Mysql 8.0.32
-- REST API
+The following technologies are used in this project:
 
-## 🗄 Start
+- **Node.js**: Version 20.x
+- **Express**: Version 7.0.8
+- **MySQL**: Version 8.0.32
+- **REST API**: Handles the API architecture for the application
 
-example:
-1. build container docker
-2. setup database
-3. Install package
-4. Start:
+---
 
-```
-  docker compose build
-  docker compose up
-  npm i
-  npm run dev
-```
+## 🚀 Getting Started
 
-4. Link: http://localhost:3000
+To start the project locally, follow the steps below:
 
-5. link swagger: http://localhost:3000/api-docs
+1. **Build Docker containers**:
 
-## 📁 Dummy data
+    ```bash
+    docker compose build
+    ```
 
-example
-1. Admin
+2. **Start Docker containers**:
 
-- email: 
-- password: 
+    ```bash
+    docker compose up
+    ```
 
+3. **Install dependencies**:
+
+    ```bash
+    npm install
+    ```
+
+4. **Run the development server**:
+
+    ```bash
+    npm run dev
+    ```
+
+5. **Access the project**:
+
+    Open your browser at: [http://localhost:3000](http://localhost:3000)
+
+6. **Swagger API Documentation**:
+
+    Access the Swagger docs for the API at: [http://localhost:3000/api-docs](http://localhost:3000/api-docs)
+
+---
+
+## 📁 Dummy Data
+
+Use the following admin credentials for testing purposes:
+
+- **Email**: `admin@example.com`
+- **Password**: `password123`
+"""
+
+# Writing the content to a README_BE.md file
+with open("/mnt/data/README_BE.md", "w") as file:
+    file.write(readme_be_content)
