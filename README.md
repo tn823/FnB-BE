@@ -1,39 +1,51 @@
 # F&B Back-End Project
 
-[TODO] Description for f&b 
+## 📝 Project Description
+
+This project is the Back-End system for managing the F&B platform. It handles requests from the frontend, interacts with the database, and manages the business logic, authentication, and API functionalities.
+
+---
 
 ## 🧑‍💻 Tech Stack
 
-example:
-- Node v20.x 
-- Express 7.0.8
-- Mysql 8.0.32
-- REST API
+The following technologies are used in this project:
 
-## 🗄 Start
+- **Node.js**: Version 20.x
+- **Express**: Version 7.0.8
+- **MySQL**: Version 8.0.32
+- **REST API**: Handles the API architecture for the application
 
-example:
-1. build container docker
-2. setup database
-3. Install package
-4. Start:
+---
 
-```
-  docker compose build
-  docker compose up
-  npm i
-  npm run dev
-```
+## 🚀 Getting Started
 
-4. Link: http://localhost:3000
+To start the project locally, follow the steps below:
 
-5. link swagger: http://localhost:3000/api-docs
+1. **Clone the repository**:
 
-## 📁 Dummy data
+    ```bash
+    git clone https://github.com/tn823/FnB-BE.git
+    ```
 
-example
-1. Admin
+2. **Install dependencies**:
 
-- email: 
-- password: 
+    ```bash
+    npm install
+    ```
+
+3. **Run the development server**:
+
+    ```bash
+    npm run dev
+    ```
+
+4. **Access the project**:
+
+    Open your browser at: [http://localhost:3000](http://localhost:3000)
+
+5. **Swagger API Documentation**:
+
+    Access the Swagger docs for the API at: [http://localhost:3000/api-docs](http://localhost:3000/api-docs)
+
+---
 
