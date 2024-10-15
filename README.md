@@ -1,5 +1,3 @@
-# Creating the README.md file for the Back-End project based on the provided content
-readme_be_content = """
 # F&B Back-End Project
 
 ## 📝 Project Description
@@ -23,48 +21,31 @@ The following technologies are used in this project:
 
 To start the project locally, follow the steps below:
 
-1. **Build Docker containers**:
+1. **Clone the repository**:
 
     ```bash
-    docker compose build
+    git clone https://github.com/tn823/FnB-BE.git
     ```
 
-2. **Start Docker containers**:
-
-    ```bash
-    docker compose up
-    ```
-
-3. **Install dependencies**:
+2. **Install dependencies**:
 
     ```bash
     npm install
     ```
 
-4. **Run the development server**:
+3. **Run the development server**:
 
     ```bash
     npm run dev
     ```
 
-5. **Access the project**:
+4. **Access the project**:
 
     Open your browser at: [http://localhost:3000](http://localhost:3000)
 
-6. **Swagger API Documentation**:
+5. **Swagger API Documentation**:
 
     Access the Swagger docs for the API at: [http://localhost:3000/api-docs](http://localhost:3000/api-docs)
 
 ---
 
-## 📁 Dummy Data
-
-Use the following admin credentials for testing purposes:
-
-- **Email**: `admin@example.com`
-- **Password**: `password123`
-"""
-
-# Writing the content to a README_BE.md file
-with open("/mnt/data/README_BE.md", "w") as file:
-    file.write(readme_be_content)
